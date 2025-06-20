@@ -17,7 +17,7 @@ def softmax(z):
 
     # ss is the sum of exponentials across the last axis (axis=-1)
     ss = np.sum(exp_z, axis=-1, keepdims=True)
-    print(f"Softmax sum (should be 1 for each sample): {exp_z, ss}")
+    # print(f"Softmax sum (should be 1 for each sample): {exp_z, ss}")
 
     return exp_z / ss
 
