@@ -24,54 +24,53 @@ def softmax(z):
 # --- 2. Neural Network Class Definition ---
 class SimpleNeuralNetwork:
     
+    MERMAID_DIAGRAM = """
+```mermaidjs
+graph TD
+    subgraph Input Layer
+        direction LR
+        F1((Feature 1))
+        F2((Feature 2))
+    end
+
+    subgraph Hidden Layer
+        direction LR
+        H1("Neuron<br>bias: b_h")
+    end
+
+    subgraph Output Layer
+        direction LR
+        O1("Output 1<br>bias: b_o1")
+        O2("Output 2<br>bias: b_o2")
+        O3("Output 3<br>bias: b_o3")
+    end
+
+    %% Connections
+    F1 -- "weight: w1" --> H1
+    F2 -- "weight: w2" --> H1
+
+    H1 -- "weight: o1" --> O1
+    H1 -- "weight: o2" --> O2
+    H1 -- "weight: o3" --> O3
+
+```
+"""
+
     NETWORK_STRUCTURE = """
-Network Structure:
-    Input Layer: Batch of input samples (aka batch of features for which prediction is to be done).
-    Shape = (batch_size, feature_size)
-        [
-            [f1, f2, f3, ...],             features for one sample (1D array with shape (input_size,)).
-            [b11, b12, b13, ...],          features for another sample (1D array with shape (input_size,)).
-            ...
-        ]
+    Input Layer:
+      - Shape: (batch_size, feature_size)
+      - Description: A batch of input samples, where each sample is a 1D array of features.
+        Example: [[f1, f2, ...], [f1, f2, ...]]
 
-    Feature weight(W_h): Conceptually a single neuron.
-    Shape = (feature_size, 1)
-        [
-            [f1_weight],
-            [f2_weight],
-            ...
-        ]
-    
-    Bias:
-    Node bias: Single bias value for the neuron.
-    Shape = (1, 1)
-        [
-            [b_h]                           (1D array with shape (1, 1))
-        ]
+    Hidden Layer (Single Neuron):
+      - Weights (W_h): (feature_size, 1) - Connects input features to the hidden neuron.
+      - Bias (b_h): (1, 1) - A single bias value for the hidden neuron.
+      - Output Shape: (batch_size, 1) - Result of (batch @ W_h) + b_h.
 
-    Output bias:
-    Shape = (1, output_size)
-        [
-            [b_o1, b_o2, b_o3, ...]         (1D array with shape (output_size,))
-        ]
-
-
-    Output weight(W_o): Conceptually a single neuron.
-    Shape = (1, output_size)
-        [
-            [o1_weight],
-            [o2_weight],
-            ...
-        ]
-
-    Output Layer: Produces probabilities for each class. 
-    Shape is (batch_size, output_size)
-        [
-            [p1, p2, p3, ...],              (1D array with shape (output_size,)) is one sample's output/prediction.
-            [p11, p12, p13, ...],           (1D array with shape (output_size,)) is another sample's output/prediction.
-            ...
-        ]
-
+    Output Layer:
+      - Weights (W_o): (1, output_size) - Connects the hidden neuron to each output neuron.
+      - Bias (b_o): (1, output_size) - A bias for each output neuron.
+      - Output Shape: (batch_size, output_size) - Produces probabilities for each class.
 """
 
     def __init__(self, feature_size, output_size):
@@ -81,6 +80,7 @@ Network Structure:
         Weights are initialized randomly, biases to zeros.
         """
 
+        print(self.MERMAID_DIAGRAM)
         print(self.NETWORK_STRUCTURE)
 
         self.feature_size = feature_size
@@ -91,21 +91,17 @@ Network Structure:
         # For small networks, small random values are fine
         # Feature weights: (feature_size x 1)
         self.W_h = self.randGen.uniform(0, 1, size=(feature_size, 1))  # Initialize weights with small random values
+        print(f"Initialized W_h with shape: {self.W_h.shape} and values:\n{self.W_h}\n")
 
         # Bias for "Single Neuron" Layer: (1 x 1)
         self.b_h = np.array([[0.001]]) # Bias for "Single Neuron" layer (1 row, 1 column)
+        print(f"Initialized b_h with shape: {self.b_h.shape} and values:\n{self.b_h}\n")
 
         # Weights for Output Layer: (1 x output_size)
         self.W_o = self.randGen.uniform(size=(1, output_size))
+        print(f"Initialized W_o with shape: {self.W_o.shape} and values:\n{self.W_o}\n")
         self.b_o = np.zeros((1, output_size)) # Bias for output layer
-
-        print("Network initialized (hidden layer simplified to 1 neuron):")
-        print(f"  Feature size: {feature_size}")
-        print(f"  Output size: {output_size}")
-        print(f"  Shape of W_h (Input to Single Neuron): {self.W_h.shape}")
-        print(f"  Shape of b_h (Single Neuron Bias): {self.b_h.shape}")
-        print(f"  Shape of W_o (Single Neuron to Output): {self.W_o.shape}")
-        print(f"  Shape of b_o (Output Bias): {self.b_o.shape}\n")
+        print(f"Initialized b_o with shape: {self.b_o.shape} and values:\n{self.b_o}\n")
 
     def forward(self, batch):
         """
