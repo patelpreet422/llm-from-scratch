@@ -149,7 +149,7 @@ graph TD
         print(f"A_o (softmax(Z_o)) shape: {A_o.shape} (activated output - probabilities):\n{A_o}\n")
 
         # Output should be 1D (output_size,)
-        return A_o.squeeze() # Removes dimensions of size 1
+        return A_o # Removes dimensions of size 1
 
 # --- 3. Example Usage of the Neural Network ---
 
