@@ -85,7 +85,7 @@ graph TD
 
         self.feature_size = feature_size
         self.output_size = output_size
-        self.randGen = np.random.default_rng()
+        self.randGen = np.random.default_rng(seed=42)
 
         # Weights for "Single Neuron" Layer (conceptually the hidden layer): (input_size x 1)
         # For small networks, small random values are fine
