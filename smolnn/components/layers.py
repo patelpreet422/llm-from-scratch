@@ -28,6 +28,23 @@ class DenseLayer:
         self.Z_cache = None         # Pre-activation values (X @ W + b)
         self.A_cache = None         # Post-activation values (output of this layer)
 
+    def __str__(self):
+        """Returns a string representation of the layer."""
+        activation_name = self.activation.__name__ if self.activation else "Linear"
+        
+        # Prepare the string
+        layer_str = f"  Dense Layer | Shape: ({self.input_dim}, {self.output_dim}) | Activation: {activation_name}\n"
+        PREFIX = "    "
+        
+        # Add weights and biases, formatted for readability
+        weights_str = np.array2string(self.weights, prefix=PREFIX, separator=', ')
+        biases_str = np.array2string(self.biases, prefix=PREFIX, separator=', ')
+        
+        layer_str += f"    Weights:\n{PREFIX + weights_str}\n"
+        layer_str += f"    Biases:\n{PREFIX + biases_str}"
+        
+        return layer_str
+
     def forward(self, input_data):
         """
         Performs the forward pass for this layer.

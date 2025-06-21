@@ -36,20 +36,22 @@ print(f"y_train (One-Hot Encoded Labels):\n{y_train}\n")
 
 # --- 2. Instantiate Our Neural Network with two hidden layers ---
 input_size = 2
-hidden_1_size = 16 
-hidden_2_size = 32
+hidden_1_size = 3
 output_size = 3
 
 model = NeuralNetwork()
-# Add layers to the model
+# Add layers to the model (Input -> Hidden 1 -> Output)
 model.add_layer(DenseLayer(input_dim=input_size, output_dim=hidden_1_size, activation=relu))
-model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=hidden_2_size, activation=relu))
-model.add_layer(DenseLayer(input_dim=hidden_2_size, output_dim=output_size, activation=softmax))
+model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=output_size, activation=softmax))
+
+# Add layers to the model (Input -> Hidden 1 -> Hidden 2 -> Output)
+# hidden_2_size = 2
+# model.add_layer(DenseLayer(input_dim=input_size, output_dim=hidden_1_size, activation=relu))
+# model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=hidden_2_size, activation=relu))
+# model.add_layer(DenseLayer(input_dim=hidden_2_size, output_dim=output_size, activation=softmax))
 
 print("--- Network Architecture Initialized ---")
-print(f"  Network contains {len(model.layers)} layers.")
-for i, layer in enumerate(model.layers):
-    print(f"  Layer {i+1}: Input_dim={layer.input_dim}, Output_dim={layer.output_dim}, Activation={layer.activation.__name__ if layer.activation else 'None'}")
+print(model)
 print("\n")
 
 # --- 3. Train the model ---

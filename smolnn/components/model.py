@@ -10,6 +10,26 @@ class NeuralNetwork:
         self.layers: List[DenseLayer] = []
         self.randGen = np.random.default_rng(seed=42)
 
+    def __str__(self):
+        """Returns a string representation of the entire neural network."""
+        # Start with a header for the network
+        s = "Neural Network Architecture:\n"
+        s += "="*30 + "\n"
+        
+        # If no layers, say so
+        if not self.layers:
+            s += "  No layers in this network.\n"
+            return s
+            
+        # Iterate through each layer and add its string representation
+        for i, layer in enumerate(self.layers):
+            s += f"Layer {i+1}:\n{layer}"
+            if i < len(self.layers) - 1:
+                s += "\n\n"
+        
+        s += "\n" + "="*30
+        return s
+
     def add_layer(self, layer: DenseLayer):
         """Adds a layer to the network."""
         self.layers.append(layer)
