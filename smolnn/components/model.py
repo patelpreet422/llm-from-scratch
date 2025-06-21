@@ -95,7 +95,7 @@ class NeuralNetwork:
             loss = categorical_cross_entropy_loss(predictions, y_train)
 
             # 3. Backward Pass (Compute Gradients)
-            gradients = self.backward(X_train, y_train, predictions)
+            gradients = self.backward(y_train, predictions)
 
             # 4. Update Weights and Biases (Gradient Descent)
             self.update_parameters(gradients, learning_rate)
