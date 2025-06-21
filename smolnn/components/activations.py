@@ -1,4 +1,3 @@
-# my_neural_net/nn_components/activations.py
 import numpy as np
 
 def relu(z):

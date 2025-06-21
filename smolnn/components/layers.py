@@ -1,4 +1,3 @@
-# my_neural_net/nn_components/layers.py
 import numpy as np
 from .activations import relu, relu_derivative, softmax # Import from our activations.py
 

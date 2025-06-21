@@ -1,4 +1,3 @@
-# my_neural_net/nn_components/losses.py
 import numpy as np
 
 def categorical_cross_entropy_loss(predictions, targets):

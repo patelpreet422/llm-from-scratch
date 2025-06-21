@@ -1,4 +1,3 @@
-# my_neural_net/nn_components/model.py
 from typing import List
 import numpy as np
 from .layers import DenseLayer

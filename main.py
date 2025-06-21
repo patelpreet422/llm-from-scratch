@@ -1,8 +1,8 @@
 # my_neural_net/main.py
 import numpy as np
-from tinynn.components.model import NeuralNetwork
-from tinynn.components.layers import DenseLayer
-from tinynn.components.activations import relu, softmax # Import specific activations for layer creation
+from smolnn.components.model import NeuralNetwork
+from smolnn.components.layers import DenseLayer
+from smolnn.components.activations import relu, softmax # Import specific activations for layer creation
 
 # --- 1. Prepare Our Training Data ---
 class_names = ["France", "India", "USA"]
