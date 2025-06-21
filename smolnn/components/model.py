@@ -55,12 +55,7 @@ class NeuralNetwork:
         for i in reversed(range(len(self.layers))):
             current_layer = self.layers[i]
             
-            if i == 0: # If it's the first hidden layer, its input is the original X
-                d_input_prev_layer, (dW, db) = current_layer.backward(d_output)
-            else:
-                # The input to the current layer's backward pass is the d_output
-                # from the *next* (i.e., numerically previous) layer's backward.
-                d_input_prev_layer, (dW, db) = current_layer.backward(d_output)
+            d_input_prev_layer, (dW, db) = current_layer.backward(d_output)
             
             # Store gradients
             gradients[('W', i)] = dW
