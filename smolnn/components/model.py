@@ -29,7 +29,7 @@ class NeuralNetwork:
             current_output = layer.forward(current_output)
         return current_output
 
-    def backward(self, X, y_true, final_predictions):
+    def backward(self, y_true, final_predictions):
         """
         Performs the backward pass through all layers, computing and returning gradients.
         
