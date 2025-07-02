@@ -68,6 +68,11 @@ class NeuralNetwork:
         # The derivative of Cross-Entropy loss w.r.t. the pre-activation of the softmax output layer (dZ_o)
         # simplifies to (predictions - true_labels).
         # This is the 'd_A_next' for the last layer's backward pass, but effectively dZ directly.
+        # This is dL/dZ_o
+        # Note: final_predictions are the output probabilities after softmax activation.
+        # y_true is the true one-hot encoded labels.
+        # d_output is the gradient of the loss with respect to the output layer's pre-activation (Z_o) 
+        # Z_o is 
         d_output = final_predictions - y_true # This is dL/dZ_o
 
         # Iterate backward through layers

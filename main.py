@@ -5,7 +5,7 @@ from smolnn.components.layers import DenseLayer
 from smolnn.components.activations import relu, softmax # Import specific activations for layer creation
 
 # --- 1. Prepare Our Training Data ---
-class_names = ["France", "India", "USA"]
+class_names = ["France", "India", "USA", "Belgium", "Netherlands"]
 
 france_coords = np.array([
     [48.8566, 2.3522], [48.8600, 2.3000], [48.8400, 2.3800],
@@ -19,13 +19,25 @@ usa_coords = np.array([
     [39.8283, -98.5795], [38.0000, -100.0000], [40.0000, -96.0000],
     [37.0000, -99.0000], [41.0000, -97.0000]
 ])
+belgium_coords = np.array([
+    [51.449946, 4.941151], [51.440328, 4.941515], [51.439067, 4.931317],
+    [51.435450, 4.929031], [51.435286, 4.92050], [51.433910, 4.934316], 
+    [51.433910, 4.934785], [51.444094, 4.936710], [51.448483, 4.936100]
+])
+netherlands_coords = np.array([
+    [51.426200, 4.931728], [51.424621, 4.940410], [51.452258, 4.935695],
+    [51.452282, 4.94005], [51.449142, 4.928905], [51.453105, 4.943511], 
+    [51.447514, 4.933312], [51.435841, 4.941076], [51.444942, 4.936522]
+])
 
-X_train_raw = np.vstack((france_coords, india_coords, usa_coords)).astype(np.float32)
+X_train_raw = np.vstack((france_coords, india_coords, usa_coords, belgium_coords, netherlands_coords)).astype(np.float32)
 
-y_france = np.tile([1, 0, 0], (len(france_coords), 1))
-y_india = np.tile([0, 1, 0], (len(india_coords), 1))
-y_usa = np.tile([0, 0, 1], (len(usa_coords), 1))
-y_train = np.vstack((y_france, y_india, y_usa)).astype(np.float32)
+y_france = np.tile([1, 0, 0, 0, 0], (len(france_coords), 1))
+y_india = np.tile([0, 1, 0, 0, 0], (len(india_coords), 1))
+y_usa = np.tile([0, 0, 1, 0, 0], (len(usa_coords), 1))
+y_belgium = np.tile([0, 0, 0, 1, 0], (len(belgium_coords), 1))
+y_netherlands = np.tile([0, 0, 0, 0, 1], (len(netherlands_coords), 1))
+y_train = np.vstack((y_france, y_india, y_usa, y_belgium, y_netherlands)).astype(np.float32)
 
 print("--- Training Data Prepared ---")
 print(f"Total training samples (X_train_raw) shape: {X_train_raw.shape}")
@@ -36,26 +48,26 @@ print(f"y_train (One-Hot Encoded Labels):\n{y_train}\n")
 
 # --- 2. Instantiate Our Neural Network with two hidden layers ---
 input_size = 2
-hidden_1_size = 3
-output_size = 3
+hidden_1_size = 16
+output_size = len(class_names)  # Number of classes
 
 model = NeuralNetwork()
 # Add layers to the model (Input -> Hidden 1 -> Output)
-model.add_layer(DenseLayer(input_dim=input_size, output_dim=hidden_1_size, activation=relu))
-model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=output_size, activation=softmax))
+# model.add_layer(DenseLayer(input_dim=input_size, output_dim=hidden_1_size, activation=relu))
+# model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=output_size, activation=softmax))
 
 # Add layers to the model (Input -> Hidden 1 -> Hidden 2 -> Output)
-# hidden_2_size = 2
-# model.add_layer(DenseLayer(input_dim=input_size, output_dim=hidden_1_size, activation=relu))
-# model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=hidden_2_size, activation=relu))
-# model.add_layer(DenseLayer(input_dim=hidden_2_size, output_dim=output_size, activation=softmax))
+hidden_2_size = 4
+model.add_layer(DenseLayer(input_dim=input_size, output_dim=hidden_1_size, activation=relu))
+model.add_layer(DenseLayer(input_dim=hidden_1_size, output_dim=hidden_2_size, activation=relu))
+model.add_layer(DenseLayer(input_dim=hidden_2_size, output_dim=output_size, activation=softmax))
 
 print("--- Network Architecture Initialized ---")
 print(model)
 print("\n")
 
 # --- 3. Train the model ---
-epochs = 10000 
+epochs = 500000 
 learning_rate = 0.001 
 
 model.train(X_train_raw, y_train, epochs, learning_rate)
